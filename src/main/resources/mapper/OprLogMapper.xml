@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.algebra.aspect.mapper.OprLogMapper" >
+  <resultMap id="BaseResultMap" type="com.algebra.aspect.domain.OprLog" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="opr_class_name" property="oprClassName" jdbcType="VARCHAR" />
+    <result column="opr_methord_name" property="oprMethordName" jdbcType="VARCHAR" />
+    <result column="message" property="message" jdbcType="VARCHAR" />
+    <result column="log_typ" property="logTyp" jdbcType="VARCHAR" />
+    <result column="opr_time" property="oprTime" jdbcType="TIMESTAMP" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, opr_class_name, opr_methord_name, message, log_typ, opr_time
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from tb_opr_log
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from tb_opr_log
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.algebra.aspect.domain.OprLog" >
+    insert into tb_opr_log (id, opr_class_name, opr_methord_name, 
+      message, log_typ, opr_time
+      )
+    values (#{id,jdbcType=INTEGER}, #{oprClassName,jdbcType=VARCHAR}, #{oprMethordName,jdbcType=VARCHAR}, 
+      #{message,jdbcType=VARCHAR}, #{logTyp,jdbcType=VARCHAR}, #{oprTime,jdbcType=TIMESTAMP}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.algebra.aspect.domain.OprLog" >
+    insert into tb_opr_log
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="oprClassName != null" >
+        opr_class_name,
+      </if>
+      <if test="oprMethordName != null" >
+        opr_methord_name,
+      </if>
+      <if test="message != null" >
+        message,
+      </if>
+      <if test="logTyp != null" >
+        log_typ,
+      </if>
+      <if test="oprTime != null" >
+        opr_time,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="oprClassName != null" >
+        #{oprClassName,jdbcType=VARCHAR},
+      </if>
+      <if test="oprMethordName != null" >
+        #{oprMethordName,jdbcType=VARCHAR},
+      </if>
+      <if test="message != null" >
+        #{message,jdbcType=VARCHAR},
+      </if>
+      <if test="logTyp != null" >
+        #{logTyp,jdbcType=VARCHAR},
+      </if>
+      <if test="oprTime != null" >
+        #{oprTime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.algebra.aspect.domain.OprLog" >
+    update tb_opr_log
+    <set >
+      <if test="oprClassName != null" >
+        opr_class_name = #{oprClassName,jdbcType=VARCHAR},
+      </if>
+      <if test="oprMethordName != null" >
+        opr_methord_name = #{oprMethordName,jdbcType=VARCHAR},
+      </if>
+      <if test="message != null" >
+        message = #{message,jdbcType=VARCHAR},
+      </if>
+      <if test="logTyp != null" >
+        log_typ = #{logTyp,jdbcType=VARCHAR},
+      </if>
+      <if test="oprTime != null" >
+        opr_time = #{oprTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.algebra.aspect.domain.OprLog" >
+    update tb_opr_log
+    set opr_class_name = #{oprClassName,jdbcType=VARCHAR},
+      opr_methord_name = #{oprMethordName,jdbcType=VARCHAR},
+      message = #{message,jdbcType=VARCHAR},
+      log_typ = #{logTyp,jdbcType=VARCHAR},
+      opr_time = #{oprTime,jdbcType=TIMESTAMP}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>
