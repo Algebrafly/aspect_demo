@@ -11,6 +11,8 @@ import java.net.InetSocketAddress;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.HashMap;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 /**
  * @author al
@@ -28,7 +30,12 @@ public class MyServerCenter implements MyServer {
      */
     private static HashMap<String,Class> serviceRegister = new HashMap<>();
 
+    /**
+     * 端口号
+     */
     private int port;
+
+    private static ExecutorService executor = Executors.newFixedThreadPool(5);
 
     public MyServerCenter(int port){
         this.port = port;
