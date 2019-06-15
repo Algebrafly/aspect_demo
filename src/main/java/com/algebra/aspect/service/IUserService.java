@@ -12,4 +12,13 @@ import java.util.Map;
 public interface IUserService {
 
     User getUserInfoOne(String id, Map<String,Object> param);
+
+    void insertUserInfo(User user);
+
+    void deleteUserInfo(String uid);
+
+    User selectUserInfo(String uid);
+
+    void updateUserInfo(User user);
+
 }

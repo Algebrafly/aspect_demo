@@ -7,9 +7,7 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 /**
  * @author al
@@ -33,5 +31,24 @@ public class UserController {
         return result;
     }
 
+
+    @RequestMapping(value = "/insertUser",method = RequestMethod.POST)
+    @ApiOperation(value = "insertUser")
+    public WebApiResult<Boolean> insertUser(@RequestBody User user){
+        log.info(user.toString());
+        userService.insertUserInfo(user);
+        WebApiResult<Boolean> result = new WebApiResult<>();
+        result.setData(true);
+        return result;
+    }
+
+    @GetMapping("/selectUser")
+    @ApiOperation(value = "selectUser")
+    public WebApiResult<User> selectUser(@RequestParam String id){
+        User u = userService.selectUserInfo(id);
+        WebApiResult<User> result = new WebApiResult<>();
+        result.setData(u);
+        return result;
+    }
 
 }
