@@ -31,57 +31,54 @@ public class Client {
          * 1.类加载器 - 需要代理的类
          * 2.需要代理的对象 -
          */
-        InvocationHandler handler = new InvocationHandler() {
 
-            /*
-             * proxy - 代理对象
-             * method - 代理方法
-             * args - 参数列表
-            * */
-            @Override
-            public Object invoke(Object proxy, Method method, Object[] args) {
+        /*
+         * proxy - 代理对象
+         * method - 代理方法
+         * args - 参数列表
+        * */
+        InvocationHandler handler = (proxy, method, args) -> {
 
-                ObjectInputStream in = null;
-                ObjectOutputStream out = null;
-                Socket socket= null;
-                try {
-                    socket = new Socket();
-                    // socketAddress
-                    socket.connect(addr);
-                    out = new ObjectOutputStream(socket.getOutputStream());// 发送
-                    // 接口名 - 方法名 - 方法参数(多个) - 方法参数类型(多个)
-                    String str = "";
-                    out.writeUTF(serviceIntf.getName());
-                    out.writeUTF(method.getName());
-                    out.writeObject(method.getParameterTypes());
-                    out.writeObject(args);
+            ObjectInputStream in = null;
+            ObjectOutputStream out = null;
+            Socket socket= null;
+            try {
+                socket = new Socket();
+                // socketAddress
+                socket.connect(addr);
+                out = new ObjectOutputStream(socket.getOutputStream());// 发送
+                // 接口名 - 方法名 - 方法参数(多个) - 方法参数类型(多个)
+                String str = "";
+                out.writeUTF(serviceIntf.getName());
+                out.writeUTF(method.getName());
+                out.writeObject(method.getParameterTypes());
+                out.writeObject(args);
 
-                    log.info("等待服务端处理...");
-                    // 接受服务端数据
-                    in = new ObjectInputStream(socket.getInputStream());
+                log.info("等待服务端处理...");
+                // 接受服务端数据
+                in = new ObjectInputStream(socket.getInputStream());
 
-                    return in.readObject();
-                } catch (Exception e){
-                    e.printStackTrace();
+                return in.readObject();
+            } catch (Exception e){
+                e.printStackTrace();
 
-                } finally {
-                    if(in != null){
-                        try {
-                            in.close();
-                        } catch (IOException e) {
-                            e.printStackTrace();
-                        }
-                    }
-                    if(out != null){
-                        try {
-                            out.close();
-                        } catch (IOException e) {
-                            e.printStackTrace();
-                        }
+            } finally {
+                if(in != null){
+                    try {
+                        in.close();
+                    } catch (IOException e) {
+                        e.printStackTrace();
                     }
                 }
-                return  null;
+                if(out != null){
+                    try {
+                        out.close();
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                }
             }
+            return  null;
         };
         return (T) Proxy.newProxyInstance(serviceIntf.getClassLoader(),new Class[]{serviceIntf},handler);
     }
