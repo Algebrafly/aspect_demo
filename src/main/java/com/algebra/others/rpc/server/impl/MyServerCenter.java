@@ -35,7 +35,13 @@ public class MyServerCenter implements MyServer {
      */
     private int port;
 
-    private static ExecutorService executor = Executors.newFixedThreadPool(5);
+    /**
+     * 连接池
+     */
+    private static ExecutorService executor = Executors.newFixedThreadPool(Runtime.getRuntime().availableProcessors());
+
+
+    private static boolean isRunning = false;
 
     public MyServerCenter(int port){
         this.port = port;
@@ -48,64 +54,99 @@ public class MyServerCenter implements MyServer {
         ObjectInputStream in = null;
         ObjectOutputStream out = null;
         Socket socket= null;
+
+        // 服务已经启动
+        isRunning = true;
+
         try {
             ServerSocket server = new ServerSocket();
             server.bind(new InetSocketAddress(port));
-            socket = server.accept();  // 客户端连接
+            log.info("server start....");
 
-            log.info("接受到客户端请求，等待处理...");
-             in = new ObjectInputStream(socket.getInputStream());
-
-            // 处理客户端发送的数据
-            String serviceName = in.readUTF();
-            String methodName = in.readUTF();
-            Class[] paramTypes = (Class[]) in.readObject();
-            Object[] args = (Object[]) in.readObject();
-
-            // service接口 - 调用
-            Class seviceClass = serviceRegister.get(serviceName);
-            Method method = seviceClass.getMethod(methodName, paramTypes);
-            Object result = method.invoke(seviceClass.newInstance(),args);
-
-            // 返回值给客户端
-            out = new ObjectOutputStream(socket.getOutputStream());
-            out.writeObject(result);
-
+            while(true){
+                socket = server.accept();  // 客户端连接
+                log.info("接受到客户端请求，等待处理...");
+                // 启动服务
+                executor.execute(new ServiceTask(socket));
+            }
         } catch (Exception e){
             e.printStackTrace();
 
-        } finally {
-            if(in != null){
-                try {
-                    in.close();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-            }
-            if(out != null){
-                try {
-                    out.close();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-            }
-//            if(socket != null){
-//                try {
-//                    socket.close();
-//                } catch (IOException e) {
-//                    e.printStackTrace();
-//                }
-//            }
         }
     }
 
     @Override
     public void stop() {
-
+        isRunning = false;
+        // 关闭服务
+        executor.shutdown();
     }
 
     @Override
     public void register(Class service, Class serviceImpl) {
         serviceRegister.put(service.getName(),serviceImpl);
     }
+
+
+    /**
+     * 线程执行服务
+     */
+    private static class  ServiceTask implements Runnable{
+
+        private Socket socket;
+
+        public ServiceTask(){
+        }
+
+        public ServiceTask(Socket socket){
+            this.socket = socket;
+        }
+
+        @Override
+        @SuppressWarnings("unchecked")
+        public void run() {
+
+            ObjectInputStream in = null;
+            ObjectOutputStream out = null;
+
+            try {
+                in = new ObjectInputStream(socket.getInputStream());
+
+                // 处理客户端发送的数据
+                String serviceName = in.readUTF();
+                String methodName = in.readUTF();
+                Class[] paramTypes = (Class[]) in.readObject();
+                Object[] args = (Object[]) in.readObject();
+
+                // service接口 - 调用
+                Class serviceClass = serviceRegister.get(serviceName);
+                Method method = serviceClass.getMethod(methodName, paramTypes);
+                Object result = method.invoke(serviceClass.newInstance(),args);
+
+                // 返回值给客户端
+                out = new ObjectOutputStream(socket.getOutputStream());
+                out.writeObject(result);
+
+            } catch (Exception e){
+                e.printStackTrace();
+
+            } finally {
+                if(in != null){
+                    try {
+                        in.close();
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                }
+                if(out != null){
+                    try {
+                        out.close();
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                }
+            }
+        }
+    }
+
 }

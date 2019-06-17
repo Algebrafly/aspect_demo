@@ -39,7 +39,7 @@ public class Client {
              * args - 参数列表
             * */
             @Override
-            public Object invoke(Object proxy, Method method, Object[] args) throws Throwable {
+            public Object invoke(Object proxy, Method method, Object[] args) {
 
                 ObjectInputStream in = null;
                 ObjectOutputStream out = null;
@@ -79,13 +79,6 @@ public class Client {
                             e.printStackTrace();
                         }
                     }
-//                    if(socket != null){
-//                        try {
-//                            socket.close();
-//                        } catch (IOException e) {
-//                            e.printStackTrace();
-//                        }
-//                    }
                 }
                 return  null;
             }
