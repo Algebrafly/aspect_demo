@@ -1,9 +1,11 @@
 package com.algebra.aspect.domain;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 
+import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 
 @Data
@@ -11,9 +13,11 @@ import java.io.Serializable;
 public class User implements Serializable {
 
     @ApiModelProperty(value = "用户id",dataType = "String")
+    @JsonProperty(value = "uId")
     private String uId;
 
     @ApiModelProperty(value = "用户姓名",dataType = "String")
+    @JsonProperty(value = "uName")
     private String uName;
 
     @ApiModelProperty(value = "用户登录密码",dataType = "String")

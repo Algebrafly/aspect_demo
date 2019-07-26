@@ -18,7 +18,7 @@ spring:
     type: com.alibaba.druid.pool.DruidDataSource
   # kafka配置
   kafka:
-    bootstrap-servers: 192.168.159.131:9092
+    bootstrap-servers: 192.168.6.101:9092
     producer:
       key-serializer: org.apache.kafka.common.serialization.StringSerializer
       value-serializer: org.apache.kafka.common.serialization.StringSerializer
