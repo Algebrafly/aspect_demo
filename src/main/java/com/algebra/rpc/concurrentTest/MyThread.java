@@ -1,4 +1,4 @@
-package com.algebra.others.concurrentTest;
+package com.algebra.rpc.concurrentTest;
 
 import java.util.concurrent.CountDownLatch;
 

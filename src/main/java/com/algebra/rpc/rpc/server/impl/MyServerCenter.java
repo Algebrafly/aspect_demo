@@ -1,6 +1,6 @@
-package com.algebra.others.rpc.server.impl;
+package com.algebra.rpc.rpc.server.impl;
 
-import com.algebra.others.rpc.server.MyServer;
+import com.algebra.rpc.rpc.server.MyServer;
 import lombok.extern.slf4j.Slf4j;
 
 import java.io.IOException;

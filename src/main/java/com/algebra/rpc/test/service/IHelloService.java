@@ -1,4 +1,4 @@
-package com.algebra.others.test.service;
+package com.algebra.rpc.test.service;
 
 /**
  * @author al

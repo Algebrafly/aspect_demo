@@ -1,10 +1,7 @@
-package com.algebra.others.concurrentTest;
+package com.algebra.rpc.concurrentTest;
 
 import com.algebra.aspect.domain.User;
-import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
-import springfox.documentation.spring.web.json.JacksonModuleRegistrar;
-import springfox.documentation.spring.web.json.Json;
 
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.ExecutorService;

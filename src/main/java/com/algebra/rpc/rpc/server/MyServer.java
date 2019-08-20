@@ -1,4 +1,4 @@
-package com.algebra.others.rpc.server;
+package com.algebra.rpc.rpc.server;
 
 
 /**

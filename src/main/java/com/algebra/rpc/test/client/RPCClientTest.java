@@ -1,7 +1,7 @@
-package com.algebra.others.test.client;
+package com.algebra.rpc.test.client;
 
-import com.algebra.others.rpc.client.Client;
-import com.algebra.others.test.service.IHelloService;
+import com.algebra.rpc.rpc.client.Client;
+import com.algebra.rpc.test.service.IHelloService;
 
 import java.net.InetSocketAddress;
 
@@ -12,7 +12,7 @@ import java.net.InetSocketAddress;
  */
 public class RPCClientTest {
     public static void main(String[] args) throws ClassNotFoundException {
-        IHelloService service = Client.getRemoteProxyObj(Class.forName("com.algebra.others.test.service.IHelloService"),
+        IHelloService service = Client.getRemoteProxyObj(Class.forName("com.algebra.rpc.test.service.IHelloService"),
                 new InetSocketAddress("127.0.0.1",9999));
         String result = service.sayHello("孔子老师");
 

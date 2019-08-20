@@ -1,8 +1,8 @@
-package com.algebra.others.test.service;
+package com.algebra.rpc.test.service;
 
-import com.algebra.others.rpc.server.MyServer;
-import com.algebra.others.rpc.server.impl.MyServerCenter;
-import com.algebra.others.test.service.impl.HelloService;
+import com.algebra.rpc.rpc.server.MyServer;
+import com.algebra.rpc.rpc.server.impl.MyServerCenter;
+import com.algebra.rpc.test.service.impl.HelloService;
 
 /**
  * @author al

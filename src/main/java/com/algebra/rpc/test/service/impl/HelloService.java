@@ -1,6 +1,6 @@
-package com.algebra.others.test.service.impl;
+package com.algebra.rpc.test.service.impl;
 
-import com.algebra.others.test.service.IHelloService;
+import com.algebra.rpc.test.service.IHelloService;
 
 /**
  * @author al
