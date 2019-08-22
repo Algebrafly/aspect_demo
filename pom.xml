@@ -16,6 +16,7 @@
 
     <properties>
         <java.version>1.8</java.version>
+        <mapstruct.version>1.3.0.Final</mapstruct.version>
     </properties>
 
     <dependencies>
@@ -173,6 +174,17 @@
             <version>4.5.6</version>
         </dependency>
 
+        <!--map-structure:DO 与 VO-->
+        <dependency>
+            <groupId>org.mapstruct</groupId>
+            <artifactId>mapstruct</artifactId>
+            <version>${mapstruct.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.mapstruct</groupId>
+            <artifactId>mapstruct-processor</artifactId>
+            <version>${mapstruct.version}</version>
+        </dependency>
 
 
 

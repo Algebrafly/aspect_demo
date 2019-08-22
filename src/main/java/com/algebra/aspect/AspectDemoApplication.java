@@ -8,7 +8,7 @@ import org.springframework.context.annotation.ComponentScan;
 
 @SpringBootApplication
 @EnableCaching
-@MapperScan("com.algebra.aspect.mapper")
+@MapperScan("com.algebra.aspect.dtomapper")
 @ComponentScan
 public class AspectDemoApplication {
 
