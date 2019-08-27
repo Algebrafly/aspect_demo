@@ -30,31 +30,40 @@ spring:
       key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
       value-deserializer: org.apache.kafka.common.serialization.StringDeserializer
   # quartz配置
-  quartz:
-    properties:
-      org:
-        quartz:
-          scheduler:
-            instanceName: DefaultQuartzScheduler
-            instanceId: AUTO
-          jobStore:
-            class: org.quartz.impl.jdbcjobstore.JobStoreTX
-            driverDelegateClass: org.quartz.impl.jdbcjobstore.StdJDBCDelegate
-            tablePrefix: QRTZ_
-            isClustered: false
-            clusterCheckinInterval: 10000
-            useProperties: true
-          threadPool:
-            class: org.quartz.simpl.SimpleThreadPool
-            threadCount: 10
-            threadPriority: 5
-            threadsInheritContextClassLoaderOfInitializingThread: true
-          dataSource:
-            default:
-              URL: jdbc:mysql://127.0.0.1:3306/test_job?useUnicode=true&characterEncoding=utf-8&useSSL=false&serverTimezone=GMT
-              user: root
-              password: 123456
-              driver: com.mysql.cj.jdbc.Driver
+#  quartz:
+#    properties:
+#      org:
+#        quartz:
+#          scheduler:
+#            instanceName: DefaultQuartzScheduler
+#            instanceId: AUTO
+#          jobStore:
+#            class: org.quartz.impl.jdbcjobstore.JobStoreTX
+#            driverDelegateClass: org.quartz.impl.jdbcjobstore.StdJDBCDelegate
+#            tablePrefix: QRTZ_
+#            isClustered: false
+#            clusterCheckinInterval: 10000
+#            useProperties: true
+#          threadPool:
+#            class: org.quartz.simpl.SimpleThreadPool
+#            threadCount: 10
+#            threadPriority: 5
+#            threadsInheritContextClassLoaderOfInitializingThread: true
+#          dataSource:
+#            default:
+#              URL: jdbc:mysql://127.0.0.1:3306/test_job?useUnicode=true&characterEncoding=utf-8&useSSL=false&serverTimezone=GMT
+#              user: root
+#              password: 123456
+#              driver: com.mysql.cj.jdbc.Driver
+  activemq:
+    broker-url: tcp://192.168.6.101:61616
+    user: admin
+    password: admin
+    pool:
+      enabled: false
+      max-connections: 50
+      idle-timeout: 30000ms
+    in-memory: true
 # mybatis
 mybatis:
   mapper-locations: classpath*:/dtomapper/**/**Mapper.xml

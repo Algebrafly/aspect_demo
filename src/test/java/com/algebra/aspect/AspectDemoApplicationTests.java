@@ -1,10 +1,12 @@
 package com.algebra.aspect;
 
+import com.algebra.aspect.active.simple.JmsProducer;
 import com.algebra.aspect.domain.User;
 import com.algebra.aspect.mapstruct.domain.Person;
 import com.algebra.aspect.mapstruct.dto.PersonDto;
 import com.algebra.aspect.mapstruct.dtomapper.PersonConverter;
 import com.algebra.aspect.service.IUserService;
+import org.apache.activemq.command.ActiveMQQueue;
 import org.apache.commons.lang3.time.DateFormatUtils;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -12,6 +14,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
+import javax.jms.Destination;
 import java.util.*;
 
 import static org.hibernate.validator.internal.util.Contracts.assertNotNull;
@@ -26,6 +29,10 @@ public class AspectDemoApplicationTests {
 
     @Autowired
     PersonConverter personConverter;
+
+    @Autowired
+    private JmsProducer jmsProducer;
+
 
     @Test
     public void contextLoads() {
@@ -56,6 +63,15 @@ public class AspectDemoApplicationTests {
         List<PersonDto> PersonDtos = personConverter.domain2Dtos(people);
         assertNotNull(PersonDtos);
         System.out.println("------------>"+PersonDtos.toString());
+    }
+
+    @Test
+    public void testJms() {
+        Destination destination = new ActiveMQQueue("batch.trade");
+
+        for (int i=0;i<10;i++) {
+            jmsProducer.sendMessage(destination,"hello,trade!" + i);
+        }
     }
 
 
