@@ -35,7 +35,7 @@ public class QuartzMain {
 
         /* withSchedule的参数-4：calendarIntervalScheduleBuilder */
         // 每天8:00-17:00，每隔2分钟执行一次
-        CronScheduleBuilder.cronSchedule("0 0/2 8-17 * * ?");
+        CronScheduleBuilder cronScheduleBuilder = CronScheduleBuilder.cronSchedule("0 0/2 8-17 * * ?");
 
 
         Trigger trigger = TriggerBuilder.newTrigger()

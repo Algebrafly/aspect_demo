@@ -13,7 +13,7 @@
         </commentGenerator>
         <!--数据库连接-->
         <jdbcConnection driverClass="com.mysql.cj.jdbc.Driver"
-                        connectionURL="jdbc:mysql://127.0.0.1:3306/poros?useUnicode=true&amp;characterEncoding=utf-8
+                        connectionURL="jdbc:mysql://127.0.0.1:3306/test_job?useUnicode=true&amp;characterEncoding=utf-8
                                                     &amp;useSSL=false&amp;serverTimezone = GMT"
                         userId="root"
                         password="123456"/>
@@ -39,7 +39,7 @@
         </javaClientGenerator>
 
         <!--生成与表对应的类名-->
-        <table schema="poros" tableName="bat_coll_dtl_rcrd" domainObjectName="BatCollDtlRcrd"
+        <table schema="test_job" tableName="schedule_info" domainObjectName="ScheduleInfo"
                enableCountByExample="false" enableUpdateByExample="false"
                enableDeleteByExample="false" enableSelectByExample="false"
                selectByExampleQueryId="false"/>

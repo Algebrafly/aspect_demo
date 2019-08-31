@@ -1,0 +1,164 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.algebra.aspect.mapper.ScheduleInfoMapper" >
+  <resultMap id="BaseResultMap" type="com.algebra.aspect.domain.ScheduleInfo" >
+    <id column="job_name" property="jobName" jdbcType="VARCHAR" />
+    <id column="trigger_name" property="triggerName" jdbcType="VARCHAR" />
+    <result column="job_group_name" property="jobGroupName" jdbcType="VARCHAR" />
+    <result column="trigger_group_name" property="triggerGroupName" jdbcType="VARCHAR" />
+    <result column="job_class_name" property="jobClassName" jdbcType="VARCHAR" />
+    <result column="cron" property="cron" jdbcType="VARCHAR" />
+    <result column="trigger_status" property="triggerStatus" jdbcType="VARCHAR" />
+    <result column="crt_time" property="crtTime" jdbcType="TIMESTAMP" />
+    <result column="upd_time" property="updTime" jdbcType="TIMESTAMP" />
+    <result column="crt_id" property="crtId" jdbcType="VARCHAR" />
+    <result column="upd_id" property="updId" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    job_name, trigger_name, job_group_name, trigger_group_name, job_class_name, cron, 
+    trigger_status, crt_time, upd_time, crt_id, upd_id
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="com.algebra.aspect.domain.ScheduleInfoKey" >
+    select 
+    <include refid="Base_Column_List" />
+    from schedule_info
+    where job_name = #{jobName,jdbcType=VARCHAR}
+      and trigger_name = #{triggerName,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="com.algebra.aspect.domain.ScheduleInfoKey" >
+    delete from schedule_info
+    where job_name = #{jobName,jdbcType=VARCHAR}
+      and trigger_name = #{triggerName,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.algebra.aspect.domain.ScheduleInfo" >
+    insert into schedule_info (job_name, trigger_name, job_group_name, 
+      trigger_group_name, job_class_name, cron, 
+      trigger_status, crt_time, upd_time, 
+      crt_id, upd_id)
+    values (#{jobName,jdbcType=VARCHAR}, #{triggerName,jdbcType=VARCHAR}, #{jobGroupName,jdbcType=VARCHAR}, 
+      #{triggerGroupName,jdbcType=VARCHAR}, #{jobClassName,jdbcType=VARCHAR}, #{cron,jdbcType=VARCHAR}, 
+      #{triggerStatus,jdbcType=VARCHAR}, #{crtTime,jdbcType=TIMESTAMP}, #{updTime,jdbcType=TIMESTAMP}, 
+      #{crtId,jdbcType=VARCHAR}, #{updId,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.algebra.aspect.domain.ScheduleInfo" >
+    insert into schedule_info
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="jobName != null" >
+        job_name,
+      </if>
+      <if test="triggerName != null" >
+        trigger_name,
+      </if>
+      <if test="jobGroupName != null" >
+        job_group_name,
+      </if>
+      <if test="triggerGroupName != null" >
+        trigger_group_name,
+      </if>
+      <if test="jobClassName != null" >
+        job_class_name,
+      </if>
+      <if test="cron != null" >
+        cron,
+      </if>
+      <if test="triggerStatus != null" >
+        trigger_status,
+      </if>
+      <if test="crtTime != null" >
+        crt_time,
+      </if>
+      <if test="updTime != null" >
+        upd_time,
+      </if>
+      <if test="crtId != null" >
+        crt_id,
+      </if>
+      <if test="updId != null" >
+        upd_id,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="jobName != null" >
+        #{jobName,jdbcType=VARCHAR},
+      </if>
+      <if test="triggerName != null" >
+        #{triggerName,jdbcType=VARCHAR},
+      </if>
+      <if test="jobGroupName != null" >
+        #{jobGroupName,jdbcType=VARCHAR},
+      </if>
+      <if test="triggerGroupName != null" >
+        #{triggerGroupName,jdbcType=VARCHAR},
+      </if>
+      <if test="jobClassName != null" >
+        #{jobClassName,jdbcType=VARCHAR},
+      </if>
+      <if test="cron != null" >
+        #{cron,jdbcType=VARCHAR},
+      </if>
+      <if test="triggerStatus != null" >
+        #{triggerStatus,jdbcType=VARCHAR},
+      </if>
+      <if test="crtTime != null" >
+        #{crtTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updTime != null" >
+        #{updTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="crtId != null" >
+        #{crtId,jdbcType=VARCHAR},
+      </if>
+      <if test="updId != null" >
+        #{updId,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.algebra.aspect.domain.ScheduleInfo" >
+    update schedule_info
+    <set >
+      <if test="jobGroupName != null" >
+        job_group_name = #{jobGroupName,jdbcType=VARCHAR},
+      </if>
+      <if test="triggerGroupName != null" >
+        trigger_group_name = #{triggerGroupName,jdbcType=VARCHAR},
+      </if>
+      <if test="jobClassName != null" >
+        job_class_name = #{jobClassName,jdbcType=VARCHAR},
+      </if>
+      <if test="cron != null" >
+        cron = #{cron,jdbcType=VARCHAR},
+      </if>
+      <if test="triggerStatus != null" >
+        trigger_status = #{triggerStatus,jdbcType=VARCHAR},
+      </if>
+      <if test="crtTime != null" >
+        crt_time = #{crtTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updTime != null" >
+        upd_time = #{updTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="crtId != null" >
+        crt_id = #{crtId,jdbcType=VARCHAR},
+      </if>
+      <if test="updId != null" >
+        upd_id = #{updId,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where job_name = #{jobName,jdbcType=VARCHAR}
+      and trigger_name = #{triggerName,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.algebra.aspect.domain.ScheduleInfo" >
+    update schedule_info
+    set job_group_name = #{jobGroupName,jdbcType=VARCHAR},
+      trigger_group_name = #{triggerGroupName,jdbcType=VARCHAR},
+      job_class_name = #{jobClassName,jdbcType=VARCHAR},
+      cron = #{cron,jdbcType=VARCHAR},
+      trigger_status = #{triggerStatus,jdbcType=VARCHAR},
+      crt_time = #{crtTime,jdbcType=TIMESTAMP},
+      upd_time = #{updTime,jdbcType=TIMESTAMP},
+      crt_id = #{crtId,jdbcType=VARCHAR},
+      upd_id = #{updId,jdbcType=VARCHAR}
+    where job_name = #{jobName,jdbcType=VARCHAR}
+      and trigger_name = #{triggerName,jdbcType=VARCHAR}
+  </update>
+</mapper>
