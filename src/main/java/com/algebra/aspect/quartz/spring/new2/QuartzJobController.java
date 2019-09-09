@@ -9,6 +9,7 @@ import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
 import org.quartz.*;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.scheduling.quartz.QuartzJobBean;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
@@ -226,8 +227,9 @@ public class QuartzJobController {
             // 构建cron表达式
             CronScheduleBuilder cronScheduleBuilder = CronScheduleBuilder.cronSchedule(quartzJobDto.getCron());
 
+            Class<? extends QuartzJobBean> aClass = (Class<? extends QuartzJobBean>) Class.forName(quartzJobDto.getJobClassName());
             // 构建jobDetail：需要具体执行器的类名
-            JobDetail jobDetail = JobBuilder.newJob(UploadTask.class)
+            JobDetail jobDetail = JobBuilder.newJob(aClass)
                     .withIdentity(quartzJobDto.getJobName(), quartzJobDto.getJobGroupName())
                     .build();
 
@@ -243,7 +245,7 @@ public class QuartzJobController {
             }
             result.setSuccess(true);
             result.setMessage("successful");
-        } catch (SchedulerException e) {
+        } catch (Exception e) {
             e.printStackTrace();
             log.error(e.getMessage());
             result.setSuccess(false);
