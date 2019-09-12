@@ -1,5 +1,6 @@
 package com.algebra.aspect;
 
+import com.algebra.aspect.active.conf.JmsConfig;
 import com.algebra.aspect.active.simple.JmsProducer;
 import com.algebra.aspect.domain.User;
 import com.algebra.aspect.mapstruct.domain.Person;
@@ -66,11 +67,11 @@ public class AspectDemoApplicationTests {
     }
 
     @Test
-    public void testJms() {
-        Destination destination = new ActiveMQQueue("batch.trade");
+    public void testJms() throws Exception {
+//        Destination destination = new ActiveMQQueue("batch.trade");
 
         for (int i=0;i<10;i++) {
-            jmsProducer.sendMessage(destination,"hello,trade!" + i);
+            jmsProducer.sendMessage3(JmsConfig.BATCH_TRADE_QUEUE,"hello,trade!" + i);
         }
     }
 

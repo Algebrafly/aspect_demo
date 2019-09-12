@@ -17,8 +17,8 @@ import javax.jms.Queue;
 @Configuration
 public class JmsConfig {
 
-    public final static String BATCH_TRADE_QUEUE = "batch.trade";
-    public final static String BATCH_QUERY_QUEUE = "batch.query";
+    public final static String BATCH_TRADE_QUEUE = "batch.trade.test";
+    public final static String BATCH_QUERY_QUEUE = "batch.query.test";
 
     @Bean
     public Queue batchTradeQueue() {
