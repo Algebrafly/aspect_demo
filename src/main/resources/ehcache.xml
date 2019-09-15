@@ -22,7 +22,7 @@
 
 
     <!-- diskStore为缓存路径，ehcache分为内存和磁盘两级，此属性定义磁盘的缓存位置 -->
-    <diskStore path="E:/tempCache" />
+    <diskStore path="D:/tempCache" />
 
     <!-- 默认缓存策略，当ehcache找不到定义的缓存时，则使用这个缓存策略。只能定义一个。 -->
     <defaultCache eternal="false" maxElementsInMemory="1000" overflowToDisk="true" diskPersistent="true"

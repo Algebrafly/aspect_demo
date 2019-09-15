@@ -71,7 +71,7 @@ public class AspectDemoApplicationTests {
 //        Destination destination = new ActiveMQQueue("batch.trade");
 
         for (int i=0;i<10;i++) {
-            jmsProducer.sendMessage3(JmsConfig.BATCH_TRADE_QUEUE,"hello,trade!" + i);
+//            jmsProducer.sendMessage3(JmsConfig.BATCH_TRADE_QUEUE,"hello,trade!" + i);
         }
     }
 
