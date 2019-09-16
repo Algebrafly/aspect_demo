@@ -27,7 +27,7 @@ public class QuartzConfiguration {
         //延长启动
         schedulerFactoryBean.setStartupDelay(1);
         //设置加载的配置文件
-        schedulerFactoryBean.setConfigLocation(new ClassPathResource("/applicaiotn-quartz.properties"));
+        schedulerFactoryBean.setConfigLocation(new ClassPathResource("/application-quartz.properties"));
         return schedulerFactoryBean;
     }
 
