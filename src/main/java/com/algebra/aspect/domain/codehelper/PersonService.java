@@ -3,8 +3,8 @@ package com.algebra.aspect.domain.codehelper;
 import org.springframework.stereotype.Service;
 import javax.annotation.Resource;
 import java.util.List;
-import com.algebra.aspect.domain.codehelper.Person;
-import com.algebra.aspect.domain.codehelper.PersonDao;
+
+import com.algebra.aspect.mapper.PersonDao;
 
 @Service
 public class PersonService{

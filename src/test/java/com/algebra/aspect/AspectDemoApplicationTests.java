@@ -1,28 +1,30 @@
 package com.algebra.aspect;
 
-import com.algebra.aspect.active.conf.JmsConfig;
 import com.algebra.aspect.active.simple.JmsProducer;
-import com.algebra.aspect.domain.User;
+import com.algebra.aspect.domain.codehelper.PersonService;
 import com.algebra.aspect.mapstruct.domain.Person;
 import com.algebra.aspect.mapstruct.dto.PersonDto;
 import com.algebra.aspect.mapstruct.dtomapper.PersonConverter;
 import com.algebra.aspect.service.IUserService;
-import org.apache.activemq.command.ActiveMQQueue;
 import org.apache.commons.lang3.time.DateFormatUtils;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit4.SpringRunner;
 
-import javax.jms.Destination;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
 
 import static org.hibernate.validator.internal.util.Contracts.assertNotNull;
 import static org.junit.Assert.assertEquals;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
+//@ActiveProfiles("")
 public class AspectDemoApplicationTests {
 
     @Autowired
@@ -34,13 +36,21 @@ public class AspectDemoApplicationTests {
     @Autowired
     private JmsProducer jmsProducer;
 
+    @Autowired
+    PersonService personService;
+
 
     @Test
     public void contextLoads() {
-        Map<String,Object> param = new HashMap<>();
-        param.put("uId","u_001");
-        User u = userService.getUserInfoOne("u_001",param);
-        System.out.println(u.toString());
+//        Map<String,Object> param = new HashMap<>();
+//        param.put("uId","u_001");
+//        User u = userService.getUserInfoOne("u_001",param);
+//        System.out.println(u.toString());
+
+        com.algebra.aspect.domain.codehelper.Person p = new
+                com.algebra.aspect.domain.codehelper.Person("p-001","tom",18,new Date(),"asd");
+
+        personService.insertSelective(p);
     }
 
     @Test

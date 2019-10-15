@@ -66,6 +66,7 @@ spring:
     in-memory: true
 # mybatis
 mybatis:
-  mapper-locations: classpath*:/dtomapper/**/**Mapper.xml
+  # 注意通配符的配置
+  mapper-locations: classpath*:/mapper/**/**.xml
   # 实体扫描，mybatis 驼峰命名映射
   typeAliasesPackage: com.algebra.aspect.domain

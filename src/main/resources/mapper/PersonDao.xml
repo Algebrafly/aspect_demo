@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
-<mapper namespace="com.algebra.aspect.domain.codehelper.PersonDao">
+<mapper namespace="com.algebra.aspect.mapper.PersonDao">
     <!--auto generated Code-->
     <resultMap id="AllColumnMap" type="com.algebra.aspect.domain.codehelper.Person">
         <result column="person_id" property="personId"/>
@@ -20,7 +20,7 @@
     </sql>
 
     <!--auto generated Code-->
-    <insert id="insert" useGeneratedKeys="true" keyProperty="pojo.personId">
+    <insert id="insert" keyProperty="pojo.personId">
         INSERT INTO person (
             `person_id`,
             `person_name`,
@@ -37,7 +37,7 @@
     </insert>
 
     <!--auto generated Code-->
-    <insert id="insertSelective" useGeneratedKeys="true" keyProperty="pojo.personId">
+    <insert id="insertSelective" keyProperty="pojo.personId">
         INSERT INTO person
         <trim prefix="(" suffix=")" suffixOverrides=",">
             <if test="pojo.personId!=null"> `person_id`,</if>
