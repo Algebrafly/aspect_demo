@@ -1,4 +1,5 @@
 package com.algebra.aspect.mapper;
+import java.util.Date;
 
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
@@ -15,4 +16,12 @@ public interface PersonDao {
     int insertList(@Param("pojos") List<Person> pojo);
 
     int update(@Param("pojo") Person pojo);
+
+    Person findOneByPersonId(@Param("personId")String personId);
+
+    List<Person> findByAll(Person person);
+
+
+
+
 }
