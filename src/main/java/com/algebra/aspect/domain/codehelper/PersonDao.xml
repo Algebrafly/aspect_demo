@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.algebra.aspect.domain.codehelper.PersonDao">
+    <!--auto generated Code-->
+    <resultMap id="AllColumnMap" type="com.algebra.aspect.domain.codehelper.Person">
+        <result column="person_id" property="personId"/>
+        <result column="person_name" property="personName"/>
+        <result column="person_age" property="personAge"/>
+        <result column="person_birthday" property="personBirthday"/>
+        <result column="remark" property="remark"/>
+    </resultMap>
+
+    <!--auto generated Code-->
+    <sql id="all_column">
+        `person_id`,
+        `person_name`,
+        `person_age`,
+        `person_birthday`,
+        `remark`
+    </sql>
+
+    <!--auto generated Code-->
+    <insert id="insert" useGeneratedKeys="true" keyProperty="pojo.personId">
+        INSERT INTO person (
+            `person_id`,
+            `person_name`,
+            `person_age`,
+            `person_birthday`,
+            `remark`
+        ) VALUES (
+            #{pojo.personId},
+            #{pojo.personName},
+            #{pojo.personAge},
+            #{pojo.personBirthday},
+            #{pojo.remark}
+        )
+    </insert>
+
+    <!--auto generated Code-->
+    <insert id="insertSelective" useGeneratedKeys="true" keyProperty="pojo.personId">
+        INSERT INTO person
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="pojo.personId!=null"> `person_id`,</if>
+            <if test="pojo.personName!=null"> `person_name`,</if>
+            <if test="pojo.personAge!=null"> `person_age`,</if>
+            <if test="pojo.personBirthday!=null"> `person_birthday`,</if>
+            <if test="pojo.remark!=null"> `remark`,</if>
+        </trim>
+        VALUES
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="pojo.personId!=null">#{pojo.personId},</if>
+            <if test="pojo.personName!=null">#{pojo.personName},</if>
+            <if test="pojo.personAge!=null">#{pojo.personAge},</if>
+            <if test="pojo.personBirthday!=null">#{pojo.personBirthday},</if>
+            <if test="pojo.remark!=null">#{pojo.remark},</if>
+        </trim>
+    </insert>
+
+    <!--auto generated Code-->
+    <insert id="insertList">
+        INSERT INTO person (
+        <include refid="all_column"/>
+        )VALUES
+        <foreach collection="pojos" item="pojo" index="index" separator=",">
+            (
+            #{pojo.personId},
+            #{pojo.personName},
+            #{pojo.personAge},
+            #{pojo.personBirthday},
+            #{pojo.remark}
+            )
+        </foreach>
+    </insert>
+
+    <!--auto generated Code-->
+    <update id="update">
+        UPDATE person
+        <set>
+            <if test="pojo.personId != null"> `person_id` = #{pojo.personId}, </if>
+            <if test="pojo.personName != null"> `person_name` = #{pojo.personName}, </if>
+            <if test="pojo.personAge != null"> `person_age` = #{pojo.personAge}, </if>
+            <if test="pojo.personBirthday != null"> `person_birthday` = #{pojo.personBirthday}, </if>
+            <if test="pojo.remark != null"> `remark` = #{pojo.remark} </if>
+        </set>
+        WHERE person_id = #{pojo.personId}
+    </update>
+</mapper>
+
