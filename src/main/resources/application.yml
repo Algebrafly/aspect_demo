@@ -11,14 +11,14 @@ server:
 spring:
   # 数据源配置
   datasource:
-    url: jdbc:mysql://127.0.0.1:3306/test_job?useUnicode=true&characterEncoding=utf-8&useSSL=false&serverTimezone=GMT
+    url: jdbc:mysql://49.233.146.198:3306/test_job?useUnicode=true&characterEncoding=utf-8&useSSL=false&serverTimezone=GMT
     username: root
     password: 123456
     driverClassName: com.mysql.cj.jdbc.Driver
     type: com.alibaba.druid.pool.DruidDataSource
   # kafka配置
   kafka:
-    bootstrap-servers: 192.168.6.101:9092
+    bootstrap-servers: 49.233.146.198:9092
     producer:
       key-serializer: org.apache.kafka.common.serialization.StringSerializer
       value-serializer: org.apache.kafka.common.serialization.StringSerializer
@@ -56,7 +56,7 @@ spring:
 #              password: 123456
 #              driver: com.mysql.cj.jdbc.Driver
   activemq:
-    broker-url: tcp://192.168.6.101:61616
+    broker-url: tcp://49.233.146.198:61616
     user: admin
     password: admin
     pool:
