@@ -1,0 +1,11 @@
+package rules;
+dialect  "java"
+
+import com.algebra.aspect.drools.fact.Address
+
+rule "校验邮编格式"
+    when
+        $address :Address(postcode != null, postcode matches "([0-9]{5})")
+    then
+        System.out.println("[drools]邮政编码格式校验通过！");
+end
