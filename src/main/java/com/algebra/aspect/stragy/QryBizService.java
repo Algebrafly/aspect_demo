@@ -2,9 +2,9 @@ package com.algebra.aspect.stragy;
 
 import com.google.common.collect.Maps;
 import org.apache.commons.lang3.StringUtils;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import javax.annotation.Resource;
 import java.util.List;
 import java.util.Map;
 
@@ -16,10 +16,12 @@ import java.util.Map;
 @Component
 public class QryBizService {
 
-    @Resource
+    /*
+     * 对于一个接扣多实现类的情景，可以使用集合来承接，spring会自动创建实体并且注入到IOC容器中
+     */
+    @Autowired
     private List<QryProcessor> qryProcessorList;
-
-    @Resource
+    @Autowired
     private Map<String,QryProcessor> qryProcessorMap;
 
     public Map<String,String> query(String type){
@@ -30,6 +32,7 @@ public class QryBizService {
             request.put("type",type);
         }
 
+        // list-foreach
         qryProcessorList.forEach(f -> {
             if(f.check(request,result)){
                 f.handle(request,result);
@@ -46,7 +49,13 @@ public class QryBizService {
             request.put("type",type);
         }
 
-        qryProcessorMap.get(type).handle(request,result);
+        // map-foreach
+        qryProcessorMap.forEach((k,qryProcessor)->{
+            if(qryProcessor.check(request,result)){
+                qryProcessor.handle(request,result);
+            }
+        });
+
         return result;
     }
 

@@ -12,10 +12,10 @@ import java.util.Objects;
  * @description
  */
 @Component
-public class QryBProcessor implements QryProcessor {
+public class QryCProcessor implements QryProcessor {
     @Override
     public boolean check(Map<String, String> request, Map<String, String> result) {
-        if(StringUtils.equals(request.get("type"),"qryBProcessor") || Objects.isNull(request.get("type"))){
+        if(StringUtils.equals(request.get("type"),"qryCProcessor") || Objects.isNull(request.get("type"))){
             return true;
         }
         return false;
@@ -23,6 +23,6 @@ public class QryBProcessor implements QryProcessor {
 
     @Override
     public void handle(Map<String, String> request, Map<String, String> result) {
-        result.put("B","item_B");
+        result.put("C","item_C");
     }
 }

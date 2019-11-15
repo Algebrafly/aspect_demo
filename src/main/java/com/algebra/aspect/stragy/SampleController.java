@@ -15,16 +15,16 @@ import java.util.Map;
 public class SampleController {
 
     @Autowired
-    QryBizService qryBizServicer;
+    QryBizService qryBizService;
 
     @GetMapping("/query1")
     public Map<String,String> query(String type){
-        return qryBizServicer.query(type);
+        return qryBizService.query(type);
     }
 
     @GetMapping("/query2")
     public Map<String,String> queryMap(String type){
-        return qryBizServicer.queryMap(type);
+        return qryBizService.queryMap(type);
     }
 
 }
