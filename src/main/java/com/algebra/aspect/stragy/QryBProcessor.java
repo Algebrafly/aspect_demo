@@ -15,10 +15,7 @@ import java.util.Objects;
 public class QryBProcessor implements QryProcessor {
     @Override
     public boolean check(Map<String, String> request, Map<String, String> result) {
-        if(StringUtils.equals(request.get("type"),"qryBProcessor") || Objects.isNull(request.get("type"))){
-            return true;
-        }
-        return false;
+        return StringUtils.equals(request.get("type"), "qryBProcessor") || Objects.isNull(request.get("type"));
     }
 
     @Override
