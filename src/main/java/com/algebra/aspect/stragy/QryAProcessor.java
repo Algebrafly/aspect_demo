@@ -11,7 +11,7 @@ import java.util.Objects;
  * @date 2019/11/15 17:30
  * @description A-服务实现逻辑
  */
-@Component
+@Component(value = "a")
 public class QryAProcessor implements QryProcessor {
     @Override
     public boolean check(Map<String, String> request, Map<String, String> result) {

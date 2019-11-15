@@ -9,8 +9,19 @@ import java.util.Map;
  */
 public interface QryProcessor {
 
+    /**
+     * 服务限定方法
+     * @param request 请求参数
+     * @param result 结果集
+     * @return boolean:true-服务可用
+     */
     boolean check(Map<String,String> request, Map<String,String> result);
 
+    /**
+     * 服务具体执行逻辑
+     * @param request 请求参数
+     * @param result 结果集
+     */
     void handle(Map<String,String> request, Map<String,String> result);
 
 }
