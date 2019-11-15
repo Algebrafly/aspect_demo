@@ -11,7 +11,7 @@ import java.util.Map;
 /**
  * @author al
  * @date 2019/11/15 17:40
- * @description
+ * @description 业务逻辑执行服务（相当于out_service）
  */
 @Component
 public class QryBizService {

@@ -9,7 +9,7 @@ import java.util.Objects;
 /**
  * @author al
  * @date 2019/11/15 17:30
- * @description
+ * @description B-服务实现逻辑
  */
 @Component
 public class QryBProcessor implements QryProcessor {

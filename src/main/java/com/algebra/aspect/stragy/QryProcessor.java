@@ -5,7 +5,7 @@ import java.util.Map;
 /**
  * @author al
  * @date 2019/11/15 17:28
- * @description
+ * @description 与数据库交互/底层业务执行逻辑接扣
  */
 public interface QryProcessor {
 
