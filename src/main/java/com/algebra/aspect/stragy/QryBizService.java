@@ -4,6 +4,7 @@ import com.google.common.collect.Maps;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Component;
 
+import javax.annotation.Resource;
 import java.util.List;
 import java.util.Map;
 
@@ -15,8 +16,10 @@ import java.util.Map;
 @Component
 public class QryBizService {
 
+    @Resource
     private List<QryProcessor> qryProcessorList;
 
+    @Resource
     private Map<String,QryProcessor> qryProcessorMap;
 
     public Map<String,String> query(String type){
