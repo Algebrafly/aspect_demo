@@ -7,13 +7,17 @@ import com.alibaba.fastjson.JSONObject;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.poi.ss.formula.functions.T;
 import org.quartz.*;
+import org.quartz.impl.StdSchedulerFactory;
+import org.quartz.impl.matchers.GroupMatcher;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.quartz.QuartzJobBean;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
 /**
  * @author al
@@ -233,6 +237,7 @@ public class QuartzJobController {
                     .withIdentity(quartzJobDto.getJobName(), quartzJobDto.getJobGroupName())
                     .build();
 
+            jobDetail.getJobDataMap().put("quartzJobDto",JSONObject.toJSONString(quartzJobDto));
             // 构建触发器
             Trigger trigger = TriggerBuilder.newTrigger()
                     .withIdentity(quartzJobDto.getTriggerName(), quartzJobDto.getTriggerGroupName())
@@ -260,23 +265,31 @@ public class QuartzJobController {
     public WebApiResult<List<QuartzJobDto>> getQuartzJobList(){
         WebApiResult<List<QuartzJobDto>> result = new WebApiResult<>();
         try {
-            List<QuartzJobDto> dtoList = new ArrayList<>();
+            List<QuartzJobDto> scheduleJobList = new ArrayList<>();
             // 获取所有任务列表
+            GroupMatcher<JobKey> matcher = GroupMatcher.anyGroup();
+            Set<JobKey> jobKeys = scheduler.getJobKeys(matcher);
+            for (JobKey jobKey : jobKeys) {
+                List<? extends Trigger> triggers = scheduler.getTriggersOfJob(jobKey);
+                for (Trigger trigger : triggers) {
+                    QuartzJobDto scheduleJob = new QuartzJobDto();
+                    scheduleJob.setJobName(jobKey.getName());
+                    scheduleJob.setJobGroupName(jobKey.getGroup());
+                    Trigger.TriggerState triggerState = scheduler.getTriggerState(trigger.getKey());
+                    scheduleJob.setJobStatus(triggerState.name());
+                    //获取要执行的定时任务类名
+                    JobDetail jobDetail=scheduler.getJobDetail(jobKey);
+                    scheduleJob.setJobClassName(jobDetail.getJobClass().getName());
 
-
-
-            // 获取当前正在运行的任务列表
-            List<JobExecutionContext> currentlyExecutingJobs = scheduler.getCurrentlyExecutingJobs();
-            System.out.println(currentlyExecutingJobs.toString());
-            for (JobExecutionContext job : currentlyExecutingJobs) {
-                QuartzJobDto dto = new QuartzJobDto();
-                dto.setTriggerName(job.getTrigger().getCalendarName());
-                dto.setTriggerGroupName(job.getTrigger().getDescription());
-                dto.setJobName(job.getJobDetail().getDescription());
-                dto.setJobClassName(job.getJobDetail().getJobClass().toString());
-                dtoList.add(dto);
+                    if (trigger instanceof CronTrigger) {
+                        CronTrigger cron = (CronTrigger) trigger;
+                        scheduleJob.setCron(cron.getCronExpression());
+                    }
+                    scheduleJobList.add(scheduleJob);
+                }
             }
-            result.setData(dtoList);
+
+            result.setData(scheduleJobList);
 
         } catch (Exception e){
             e.printStackTrace();

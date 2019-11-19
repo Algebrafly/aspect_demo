@@ -35,4 +35,9 @@ public class QuartzJobDto {
      */
     private String cron;
 
+    /**
+     * 任务状态-供查询使用
+     */
+    private String jobStatus;
+
 }
