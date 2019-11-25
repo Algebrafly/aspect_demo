@@ -14,7 +14,7 @@ public class PersonOrderbyBirthdayUtil implements Comparator<Person>{
 
     @Override
     public int compare(Person o1, Person o2) {
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 
         try {
             Date date1 = sdf.parse(o1.getBirthdayString());

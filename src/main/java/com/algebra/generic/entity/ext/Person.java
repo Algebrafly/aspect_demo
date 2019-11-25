@@ -61,7 +61,7 @@ public class Person implements Serializable, Comparable<Person>{
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
         DecimalFormat df = new DecimalFormat("0.00");
 
-        Person p4 = Person.builder().name("tom").gender(true).age(19)
+        Person p1 = Person.builder().name("tom").gender(true).age(19)
                 .birthday(sdf.parse("2018-10-10")).birthdayString("2018-10-10")
                 .salaryString("2500").salary(new BigDecimal("2500")).build();
 
@@ -69,15 +69,15 @@ public class Person implements Serializable, Comparable<Person>{
                 .birthday(sdf.parse("2017-9-9")).birthdayString("2017-9-9")
                 .salaryString("6000").salary(new BigDecimal("6000")).build();
 
-        Person p5 = Person.builder().name("lily").gender(false).age(20)
+        Person p3 = Person.builder().name("lily").gender(false).age(20)
                 .birthday(sdf.parse("2019-10-11")).birthdayString("2019-10-11")
                 .salaryString("3000").salary(new BigDecimal("3000")).build();
 
-        Person p1 = Person.builder().name("张小敬").gender(true).age(20)
+        Person p4 = Person.builder().name("张小敬").gender(true).age(20)
                 .birthday(sdf.parse("2019-10-11")).birthdayString("2019-10-11")
                 .salaryString("5000").salary(new BigDecimal("5000")).build();
 
-        Person p3 = Person.builder().name("檀棋").gender(false).age(24)
+        Person p5 = Person.builder().name("檀棋").gender(false).age(24)
                 .birthday(sdf.parse("2018-10-10")).birthdayString("2018-10-10")
                 .salaryString("8000").salary(new BigDecimal("8000")).build();
 
@@ -87,10 +87,20 @@ public class Person implements Serializable, Comparable<Person>{
         System.out.println("[排序前：---------------------->>>]");
         al.forEach(data -> System.out.println(data.toString()));
 
-        al.sort(Person::compareTo);
+        /* 先按照年龄升序，年龄相同按照入职降序，入职日期相同按照薪水升序排序 */
+//        al.sort(Person::compareTo);
+
+        /* 按照日期排序（利用自定义的排序规则类） */
+//        al.sort(new PersonOrderbyBirthdayUtil());
+
+        /* 按照薪水排序（利用自定义的排序规则类） */
+        al.sort(new PersonOrderbySalaryUtil());
 
         System.out.println("[排序后：---------------------->>>]");
         al.forEach(data -> System.out.println(data.toString()));
+
+
+
 
     }
 
