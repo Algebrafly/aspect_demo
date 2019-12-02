@@ -43,7 +43,7 @@ public class Person implements Serializable, Comparable<Person>{
                 Comparator<Person> comparator = (o1, o2) -> {
                     Date date1 = o1.getBirthday();
                     Date date2 = o2.getBirthday();
-                    return date1.compareTo(date2);
+                    return - date1.compareTo(date2);
                 };
             } else {
                 Comparator<Person> comparator = (o1, o2) -> {
@@ -67,7 +67,7 @@ public class Person implements Serializable, Comparable<Person>{
 
         Person p2 = Person.builder().name("jerry").gender(true).age(20)
                 .birthday(sdf.parse("2017-9-9")).birthdayString("2017-9-9")
-                .salaryString("6000").salary(new BigDecimal("6000")).build();
+                .salaryString("6000").salary(new BigDecimal(6000)).build();
 
         Person p3 = Person.builder().name("lily").gender(false).age(20)
                 .birthday(sdf.parse("2019-10-11")).birthdayString("2019-10-11")
@@ -94,7 +94,9 @@ public class Person implements Serializable, Comparable<Person>{
 //        al.sort(new PersonOrderbyBirthdayUtil());
 
         /* 按照薪水排序（利用自定义的排序规则类） */
-        al.sort(new PersonOrderbySalaryUtil());
+//        al.sort(new PersonOrderbySalaryUtil());
+
+        Collections.sort(al);
 
         System.out.println("[排序后：---------------------->>>]");
         al.forEach(data -> System.out.println(data.toString()));
