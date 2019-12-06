@@ -1,5 +1,6 @@
 package com.algebra.aspect.controller;
 
+import com.algebra.aspect.annotation.AccessLimit;
 import com.algebra.aspect.util.WebApiResult;
 import com.algebra.aspect.util.conf.RedisUtil;
 import com.algebra.generic.entity.ext.Person;
@@ -33,6 +34,8 @@ public class RedisController {
 
     @GetMapping("/redisSet")
     @ApiOperation("redisSet")
+    // 限制一分钟内只能访问三次
+    @AccessLimit(seconds = 60,maxCount = 3)
     public boolean redisSet(@RequestParam("key") String key, @RequestParam("value")String value){
 
         Person p = Person.builder().name("tom").age(18).birthday(new Date()).salary(new BigDecimal(8888)).build();

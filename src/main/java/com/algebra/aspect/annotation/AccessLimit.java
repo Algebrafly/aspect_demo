@@ -14,12 +14,12 @@ import java.lang.annotation.Target;
 @Target(ElementType.METHOD)
 public @interface AccessLimit {
     /**
-     * 请求限制时间
+     * 请求限制失效时间
      */
     int seconds();
 
     /**
-     * 请求限制次数
+     * 请求限制最大次数
      */
     int maxCount();
 
