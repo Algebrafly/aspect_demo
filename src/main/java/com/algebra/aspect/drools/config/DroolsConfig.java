@@ -1,10 +1,10 @@
 package com.algebra.aspect.drools.config;
 
+import com.algebra.aspect.drools.util.KieUtils;
+import lombok.extern.slf4j.Slf4j;
 import org.kie.api.KieBase;
 import org.kie.api.KieServices;
-import org.kie.api.builder.KieBuilder;
-import org.kie.api.builder.KieFileSystem;
-import org.kie.api.builder.KieRepository;
+import org.kie.api.builder.*;
 import org.kie.api.runtime.KieContainer;
 import org.kie.api.runtime.KieSession;
 import org.kie.internal.io.ResourceFactory;
@@ -23,6 +23,7 @@ import java.io.IOException;
  * @description
  */
 @Configuration
+@Slf4j
 public class DroolsConfig {
 
     /**
@@ -37,6 +38,7 @@ public class DroolsConfig {
 
     @Bean
     public KieFileSystem kieFileSystem() throws IOException {
+//        不能每次都kieServices.newKieFileSystem() 这样出来是不同的对象
         KieFileSystem kieFileSystem = kieServices.newKieFileSystem();
         ResourcePatternResolver resourcePatternResolver = new PathMatchingResourcePatternResolver();
         Resource[] files = resourcePatternResolver.getResources("classpath*:" + RULES_PATH + "**/*.*");
@@ -53,8 +55,15 @@ public class DroolsConfig {
         KieRepository kieRepository = kieServices.getRepository();
         kieRepository.addKieModule(kieRepository::getDefaultReleaseId);
         KieBuilder kieBuilder = kieServices.newKieBuilder(kieFileSystem());
+        Results results = kieBuilder.getResults();
+        if(results.hasMessages(Message.Level.ERROR)){
+            log.error(results.getMessages().toString());
+            throw new IllegalStateException("error");
+        }
         kieBuilder.buildAll();
-        return kieServices.newKieContainer(kieRepository.getDefaultReleaseId());
+        KieContainer kieContainer = kieServices.newKieContainer(kieRepository.getDefaultReleaseId());
+        KieUtils.setKieContainer(kieContainer);
+        return kieContainer;
     }
 
     @Bean
