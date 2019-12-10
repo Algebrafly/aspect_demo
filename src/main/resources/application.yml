@@ -1,6 +1,8 @@
 spring:
   application:
     name: aspect-demo
+  profiles:
+    include: param
 server:
     tomcat:
         uri-encoding: UTF-8
@@ -18,7 +20,7 @@ spring:
     type: com.alibaba.druid.pool.DruidDataSource
   # kafka配置
   kafka:
-    bootstrap-servers: 49.233.146.198:9092
+    bootstrap-servers: 192.168.6.63:9092
     producer:
       key-serializer: org.apache.kafka.common.serialization.StringSerializer
       value-serializer: org.apache.kafka.common.serialization.StringSerializer

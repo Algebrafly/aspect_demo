@@ -54,6 +54,7 @@ public class DroolsConfig {
     public KieContainer kieContainer() throws IOException {
         KieRepository kieRepository = kieServices.getRepository();
         kieRepository.addKieModule(kieRepository::getDefaultReleaseId);
+
         KieBuilder kieBuilder = kieServices.newKieBuilder(kieFileSystem());
         Results results = kieBuilder.getResults();
         if(results.hasMessages(Message.Level.ERROR)){
@@ -61,6 +62,7 @@ public class DroolsConfig {
             throw new IllegalStateException("error");
         }
         kieBuilder.buildAll();
+
         KieContainer kieContainer = kieServices.newKieContainer(kieRepository.getDefaultReleaseId());
         KieUtils.setKieContainer(kieContainer);
         return kieContainer;
