@@ -56,6 +56,10 @@ public class DroolsBusinessServiceImpl implements DroolsBusinessService{
             filePath.mkdir();
         }
 
+        // 读取指定文件夹下的drl文件列表
+
+
+        // 将规则文件存入kieFileSystem
 
 
 
