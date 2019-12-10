@@ -8,6 +8,8 @@ import org.kie.api.builder.model.KieModuleModel;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 
+import java.io.File;
+
 /**
  * @author al
  * @date 2019/12/10 16:40
@@ -48,6 +50,15 @@ public class DroolsBusinessServiceImpl implements DroolsBusinessService{
 
     @Override
     public void buildAllRules() {
+        log.info("Build rules start ...");
+        File filePath = new File(drlPath);
+        if(!filePath.exists()) {
+            filePath.mkdir();
+        }
+
+
+
+
 
     }
 
