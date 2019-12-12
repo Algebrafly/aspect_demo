@@ -1,0 +1,39 @@
+import com.algebra.generic.entity.ext.Person;
+
+rule "name的使用1"
+    dialect "mvel"
+    when
+    then
+        System.out.println("name的使用1正在使用");
+end
+
+rule "name的使用2"
+    dialect "mvel"
+    when
+         forall(p:Person(name=="张三")   Person(this==p,age==10));
+    then
+        System.out.println("name的使用2正在使用");
+end
+
+rule "name的使用3"
+    when
+         forall(p:Person(name=="张三")   Person(this==p,age==10));
+    then
+        System.out.println("name的使用3正在使用");
+end
+
+rule "name的使用4"
+    dialect "mvel"
+    when
+         forall(p:Person(name=="张三")   Person(this==p,age==10));
+    then
+        System.out.println("name的使用4正在使用");
+end
+
+rule "name的使用5"
+    dialect "mvel"
+    when
+         forall(p:Person(name=="张三")   Person(this==p,age==10));
+    then
+        System.out.println("name的使用5正在使用");
+end

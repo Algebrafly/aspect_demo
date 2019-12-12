@@ -5,9 +5,9 @@ import org.kie.api.runtime.KieContainer;
 /**
  * @author al
  * @date 2019/12/10 13:09
- * @description Kies 工具类
+ * @description Kies 容器工具类 - 设置规则容器
  */
-public class KieUtils {
+public class KieContainerUtils {
 
     private static KieContainer kieContainer;
 
@@ -16,7 +16,7 @@ public class KieUtils {
     }
 
     public static void setKieContainer(KieContainer kieContainer) {
-        KieUtils.kieContainer = kieContainer;
+        KieContainerUtils.kieContainer = kieContainer;
     }
 
 }

@@ -1,7 +1,8 @@
 package com.algebra.aspect.drools.config;
 
-import com.algebra.aspect.drools.util.KieUtils;
+import com.algebra.aspect.drools.util.KieContainerUtils;
 import lombok.extern.slf4j.Slf4j;
+import org.drools.core.io.impl.ClassPathResource;
 import org.kie.api.KieServices;
 import org.kie.api.builder.KieBuilder;
 import org.kie.api.builder.KieFileSystem;
@@ -35,7 +36,7 @@ public class ReloadDroolsRules {
             throw new IllegalStateException("### errors ###");
         }
 
-        KieUtils.setKieContainer(kieServices.newKieContainer(kieServices.getRepository().getDefaultReleaseId()));
+        KieContainerUtils.setKieContainer(kieServices.newKieContainer(kieServices.getRepository().getDefaultReleaseId()));
         log.info("reload新规则重载成功");
     }
 
@@ -66,6 +67,7 @@ public class ReloadDroolsRules {
 
         KieHelper kieHelper = new KieHelper();
         kieHelper.addContent(loadRules(), ResourceType.DRL);
+//        kieHelper.addResource(new ClassPathResource("/aaa.drl"),ResourceType.DRL);
 
         Results results = kieHelper.verify();
         if (results.hasMessages(Message.Level.ERROR)) {
@@ -76,7 +78,7 @@ public class ReloadDroolsRules {
 //        KieBase kieBase = kieHelper.build();
         KieContainer kieContainer = kieHelper.getKieContainer();
 
-        KieUtils.setKieContainer(kieContainer);
+        KieContainerUtils.setKieContainer(kieContainer);
         log.info("新规则重载成功");
     }
 }

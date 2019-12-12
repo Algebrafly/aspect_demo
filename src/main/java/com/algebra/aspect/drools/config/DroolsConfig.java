@@ -1,6 +1,6 @@
 package com.algebra.aspect.drools.config;
 
-import com.algebra.aspect.drools.util.KieUtils;
+import com.algebra.aspect.drools.util.KieContainerUtils;
 import lombok.extern.slf4j.Slf4j;
 import org.kie.api.KieBase;
 import org.kie.api.KieServices;
@@ -64,7 +64,7 @@ public class DroolsConfig {
         kieBuilder.buildAll();
 
         KieContainer kieContainer = kieServices.newKieContainer(kieRepository.getDefaultReleaseId());
-        KieUtils.setKieContainer(kieContainer);
+        KieContainerUtils.setKieContainer(kieContainer);
         return kieContainer;
     }
 

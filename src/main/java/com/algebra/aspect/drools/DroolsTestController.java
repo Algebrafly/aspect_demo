@@ -2,7 +2,7 @@ package com.algebra.aspect.drools;
 
 import com.algebra.aspect.drools.config.ReloadDroolsRules;
 import com.algebra.aspect.drools.fact.Address;
-import com.algebra.aspect.drools.util.KieUtils;
+import com.algebra.aspect.drools.util.KieContainerUtils;
 import io.swagger.annotations.Api;
 import lombok.extern.slf4j.Slf4j;
 import org.kie.api.runtime.KieContainer;
@@ -44,7 +44,7 @@ public class DroolsTestController {
 
     @GetMapping("/address2/{postCode}")
     public void justForTest2(@PathVariable(value = "postCode") String postCode){
-        KieContainer kieContainer = KieUtils.getKieContainer();
+        KieContainer kieContainer = KieContainerUtils.getKieContainer();
         KieSession kieSession1 = kieContainer.newKieSession();
 
         // 以下的数据可以从数据库来，这里写死了

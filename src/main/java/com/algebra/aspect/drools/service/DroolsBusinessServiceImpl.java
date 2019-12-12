@@ -9,6 +9,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 
 import java.io.File;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
 
 /**
  * @author al
@@ -16,7 +20,7 @@ import java.io.File;
  * @description
  */
 @Slf4j
-public class DroolsBusinessServiceImpl implements DroolsBusinessService{
+public class DroolsBusinessServiceImpl implements DroolsBusinessService {
 
     @Value("${drl.path}")
     private String drlPath;
@@ -52,7 +56,7 @@ public class DroolsBusinessServiceImpl implements DroolsBusinessService{
     public void buildAllRules() {
         log.info("Build rules start ...");
         File filePath = new File(drlPath);
-        if(!filePath.exists()) {
+        if (!filePath.exists()) {
             filePath.mkdir();
         }
 
@@ -60,8 +64,6 @@ public class DroolsBusinessServiceImpl implements DroolsBusinessService{
 
 
         // 将规则文件存入kieFileSystem
-
-
 
 
     }
@@ -75,4 +77,43 @@ public class DroolsBusinessServiceImpl implements DroolsBusinessService{
     public void deleteRules(String fileName) {
 
     }
+
+    public static void main(String[] args) throws ParseException {
+
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+        Date endDate = sdf.parse("2019-11-30");
+        Date startDate = sdf.parse("2019-4-15");
+
+        Calendar endCal = Calendar.getInstance();
+        endCal.setTime(endDate);
+        Calendar startCal = Calendar.getInstance();
+        startCal.setTime(startDate);
+
+        int endDays = endCal.get(Calendar.DAY_OF_YEAR);
+        int startDays = startCal.get(Calendar.DAY_OF_YEAR);
+
+        int endYears = endCal.get(Calendar.YEAR);
+        int startYears = startCal.get(Calendar.YEAR);
+
+        if (startYears != endYears) {
+            int timeDistance = 0;
+            for (int i = startYears; i < endYears; i++) {
+                if (i % 4 == 0 && i % 100 != 0 || i % 400 == 0) {
+                    timeDistance += 366;
+                } else {
+                    timeDistance += 365;
+                }
+            }
+            System.out.println("相隔天数：" + (timeDistance + (endDays - startDays)));
+        } else {
+            System.out.println("相隔天数：" + (endDays - startDays));
+        }
+
+    }
+
+    public static int differentDayMillisecond(Date date1, Date date2) {
+        int day = (int) ((date2.getTime() - date1.getTime()) / (3600 * 1000 * 24));
+        return day;
+    }
+
 }
