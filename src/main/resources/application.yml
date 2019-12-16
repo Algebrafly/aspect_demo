@@ -9,6 +9,12 @@ server:
     port: 8182
     servlet:
         context-path: /asp-demo
+management:
+  security:
+      enabled: false
+  # 指定监控的HTTP端口（如果不指定，则使用和Server相同的端口）:http://localhost:8183/act/health
+  server:
+    port: 8183
 ---
 spring:
   # 数据源配置
