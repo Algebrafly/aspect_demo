@@ -5,6 +5,7 @@ import com.algebra.aspect.kafka.order.Order;
 import com.algebra.aspect.kafka.order.OrderKafkaProvider;
 import com.algebra.aspect.service.IUserService;
 import com.algebra.aspect.util.WebApiResult;
+import com.google.common.io.Files;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
@@ -29,6 +30,20 @@ public class UserController {
 
     @Autowired
     OrderKafkaProvider orderKafkaProvider;
+
+    @PostMapping("/getToken")
+    @ApiOperation(value = "getToken")
+    public String getToken(@RequestParam("username") String username,@RequestParam("password") String password){
+        return "{\n" +
+                "  \"access_token\": \"eyJhbGci_1AOo\",\n" +
+                "  \"token_type\": \"bearer\",\n" +
+                "  \"refresh_token\": \"eyJhbGci_1AOo\",\n" +
+                "  \"expires_in\": 3599,\n" +
+                "  \"scope\": \"bjyytest\",\n" +
+                "  \"addition-information\": \"asd\",\n" +
+                "  \"jti\": \"456-ef-aa45-1aa\"\n" +
+                "}";
+    }
 
     @GetMapping("/getOneUserInfo")
     @ApiOperation(value = "getOneUserInfo")
