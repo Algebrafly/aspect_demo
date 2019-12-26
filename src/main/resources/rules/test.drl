@@ -1,10 +1,14 @@
+package test
+
 import com.algebra.generic.entity.ext.Person;
+import function com.algebra.aspect.drools.config.Utility.helper;
 
 rule "name的使用1"
     dialect "mvel"
     when
     then
         System.out.println("name的使用1正在使用");
+        helper(drools);
 end
 
 rule "name的使用2"
@@ -13,6 +17,7 @@ rule "name的使用2"
          forall(p:Person(name=="张三")   Person(this==p,age==10));
     then
         System.out.println("name的使用2正在使用");
+        helper(drools);
 end
 
 rule "name的使用3"
@@ -20,6 +25,7 @@ rule "name的使用3"
          forall(p:Person(name=="张三")   Person(this==p,age==10));
     then
         System.out.println("name的使用3正在使用");
+        helper(drools);
 end
 
 rule "name的使用4"
