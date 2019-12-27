@@ -10,8 +10,6 @@ server:
     servlet:
         context-path: /asp-demo
 management:
-  security:
-      enabled: false
   # 指定监控的HTTP端口（如果不指定，则使用和Server相同的端口）:http://localhost:8183/act/health
   server:
     port: 8183
@@ -76,7 +74,7 @@ spring:
   redis:
     # 数据库索引
     database: 0
-    host: 49.233.146.198
+    host: 192.168.6.62
     port: 6379
     password:
     jedis:
