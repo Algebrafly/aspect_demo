@@ -8,7 +8,7 @@ import java.util.Set;
 /**
  * @author al
  * @date 2019/12/12 17:18
- * @description
+ * @description 定制化加载规则
  */
 public class CustomAgendaFilter implements AgendaFilter {
     /**

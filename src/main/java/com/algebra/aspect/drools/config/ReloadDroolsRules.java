@@ -24,6 +24,10 @@ import java.io.UnsupportedEncodingException;
 @Slf4j
 public class ReloadDroolsRules {
 
+    /**
+     * 重新加载规则文件
+     * @throws UnsupportedEncodingException
+     */
     public void reload() throws UnsupportedEncodingException {
         KieServices kieServices = getKieServices();
         // 不能每次都kieServices.newKieFileSystem() 这样出来是不同的对象
@@ -31,13 +35,45 @@ public class ReloadDroolsRules {
         kfs.write("src/main/resources/rules/temp.drl", loadRules());
         KieBuilder kieBuilder = kieServices.newKieBuilder(kfs).buildAll();
         Results results = kieBuilder.getResults();
+        // 检测规则正确性
+        if (results.hasMessages(Message.Level.ERROR)) {
+            log.info(String.valueOf(results.getMessages()));
+            throw new IllegalStateException("### drl file error ###");
+        }
+        // 将规则放入kieContainer
+        KieContainerUtils.setKieContainer(kieServices.newKieContainer(kieServices.getRepository().getDefaultReleaseId()));
+        log.info("reload新规则重载成功");
+    }
+
+    /**
+     * 使用kieHelper重新加载规则 文件
+     * @throws UnsupportedEncodingException
+     */
+    public void reloadByHelper() throws UnsupportedEncodingException {
+
+        KieHelper kieHelper = new KieHelper();
+        kieHelper.addContent(loadRules(), ResourceType.DRL);
+//        kieHelper.addResource(new ClassPathResource("/aaa.drl"),ResourceType.DRL);
+
+        Results results = kieHelper.verify();
         if (results.hasMessages(Message.Level.ERROR)) {
             log.info(String.valueOf(results.getMessages()));
             throw new IllegalStateException("### errors ###");
         }
 
-        KieContainerUtils.setKieContainer(kieServices.newKieContainer(kieServices.getRepository().getDefaultReleaseId()));
-        log.info("reload新规则重载成功");
+//        KieBase kieBase = kieHelper.build();
+        KieContainer kieContainer = kieHelper.getKieContainer();
+
+        KieContainerUtils.setKieContainer(kieContainer);
+        log.info("新规则重载成功");
+    }
+
+    /**
+     * 获取kieServices
+     * @return KieServices
+     */
+    private KieServices getKieServices() {
+        return KieServices.Factory.get();
     }
 
     /**
@@ -57,28 +93,5 @@ public class ReloadDroolsRules {
                 "        System.out.println(\"[drools]邮政编码格式（6位）校验通过！---\");\n" +
                 "end";
 
-    }
-
-    private KieServices getKieServices() {
-        return KieServices.Factory.get();
-    }
-
-    public void reloadByHelper() throws UnsupportedEncodingException {
-
-        KieHelper kieHelper = new KieHelper();
-        kieHelper.addContent(loadRules(), ResourceType.DRL);
-//        kieHelper.addResource(new ClassPathResource("/aaa.drl"),ResourceType.DRL);
-
-        Results results = kieHelper.verify();
-        if (results.hasMessages(Message.Level.ERROR)) {
-            log.info(String.valueOf(results.getMessages()));
-            throw new IllegalStateException("### errors ###");
-        }
-
-//        KieBase kieBase = kieHelper.build();
-        KieContainer kieContainer = kieHelper.getKieContainer();
-
-        KieContainerUtils.setKieContainer(kieContainer);
-        log.info("新规则重载成功");
     }
 }
