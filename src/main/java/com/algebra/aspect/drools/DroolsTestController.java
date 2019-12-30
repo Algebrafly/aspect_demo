@@ -2,12 +2,14 @@ package com.algebra.aspect.drools;
 
 import com.algebra.aspect.drools.config.ReloadDroolsRules;
 import com.algebra.aspect.drools.fact.Address;
+import com.algebra.aspect.drools.fact.Phone;
 import com.algebra.aspect.drools.util.KieContainerUtils;
 import io.swagger.annotations.Api;
 import lombok.extern.slf4j.Slf4j;
 import org.kie.api.runtime.KieContainer;
 import org.kie.api.runtime.KieSession;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.parameters.P;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
@@ -51,6 +53,24 @@ public class DroolsTestController {
         Address address = new Address();
         address.setPostcode(postCode);
         // 使用规则引擎
+        kieSession1.insert(address);
+        int ruleFiredCount = kieSession1.fireAllRules();
+        log.info("触发了" + ruleFiredCount + "条规则");
+        log.info("---------------------------------");
+    }
+
+    @GetMapping("/address3")
+    public void justForTest3(@RequestParam(value = "postCode") String postCode,@RequestParam(value = "phoneNo") String phoneNo){
+        KieContainer kieContainer = KieContainerUtils.getKieContainer();
+        KieSession kieSession1 = kieContainer.newKieSession();
+
+        // 以下的数据可以从数据库来，这里写死了
+        Address address = new Address();
+        address.setPostcode(postCode);
+        Phone phone = new Phone();
+        phone.setPhoneNo(phoneNo);
+        // 使用规则引擎
+        kieSession1.insert(phone);
         kieSession1.insert(address);
         int ruleFiredCount = kieSession1.fireAllRules();
         log.info("触发了" + ruleFiredCount + "条规则");
