@@ -228,11 +228,11 @@
         </dependency>
 
         <!--drools-->
-        <dependency>
-            <groupId>org.drools</groupId>
-            <artifactId>drools-templates</artifactId>
-            <version>7.31.0.Final</version>
-        </dependency>
+<!--        <dependency>-->
+<!--            <groupId>org.drools</groupId>-->
+<!--            <artifactId>drools-templates</artifactId>-->
+<!--            <version>7.31.0.Final</version>-->
+<!--        </dependency>-->
 
         <dependency>
             <groupId>org.kie</groupId>
