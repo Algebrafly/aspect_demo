@@ -17,9 +17,9 @@ management:
 spring:
   # 数据源配置
   datasource:
-    url: jdbc:mysql://127.0.0.1:3306/test_job?useUnicode=true&characterEncoding=utf-8&useSSL=false&serverTimezone=GMT
+    url: jdbc:mysql://49.233.146.198:3306/test_job?useUnicode=true&characterEncoding=utf-8&useSSL=false&serverTimezone=GMT
     username: root
-    password: 123456
+    password: algebrafly
     driverClassName: com.mysql.cj.jdbc.Driver
     type: com.alibaba.druid.pool.DruidDataSource
   # kafka配置

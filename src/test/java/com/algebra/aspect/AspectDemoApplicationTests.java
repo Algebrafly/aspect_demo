@@ -2,6 +2,7 @@ package com.algebra.aspect;
 
 import com.algebra.aspect.active.simple.JmsProducer;
 import com.algebra.aspect.domain.codehelper.PersonService;
+import com.algebra.aspect.mapper.MyProcedureMapper;
 import com.algebra.aspect.mapstruct.domain.Person;
 import com.algebra.aspect.mapstruct.dto.PersonDto;
 import com.algebra.aspect.mapstruct.dtomapper.PersonConverter;
@@ -15,9 +16,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit4.SpringRunner;
 
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
+import java.util.*;
 
 import static org.hibernate.validator.internal.util.Contracts.assertNotNull;
 import static org.junit.Assert.assertEquals;
@@ -39,6 +38,18 @@ public class AspectDemoApplicationTests {
     @Autowired
     PersonService personService;
 
+    @Autowired
+    MyProcedureMapper procedureMapper;
+
+    @Test
+    public void procedureTest(){
+        Map<String,Object> param = new HashMap<>();
+        param.put("a",1);
+        param.put("b",2);
+
+        Map<String, Object> sum1 = procedureMapper.getSum(param);
+        System.out.println(sum1);
+    }
 
     @Test
     public void contextLoads() {
