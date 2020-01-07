@@ -2,11 +2,14 @@
 <html>
 <head>
     <meta charset="UTF-8">
+    <meta name="_csrf" content="${_csrf.token}"/>
+    <meta name="_csrf_header" content="${_csrf.headerName}"/>
     <title>spring-boot-demo-task-quartz</title>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/element-ui/2.4.9/theme-chalk/index.css" rel="stylesheet">
     <script src="https://cdn.bootcss.com/vue/2.5.17/vue.min.js"></script>
     <script src="https://cdn.bootcss.com/vue-resource/1.5.1/vue-resource.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/element-ui/2.4.9/index.js"></script>
+    <script src="https://cdn.bootcss.com/jquery/3.4.1/jquery.js"></script>
 
     <style>
         #top {
@@ -71,8 +74,8 @@
             <el-form-item label="任务名称" label-width="100px" style="width:90%">
                 <el-input v-model="form.jobName" auto-complete="off"></el-input>
             </el-form-item>
-            <el-form-item label="任务分组" label-width="100px" style="width:90%">
-                <el-input v-model="form.jobGroup" auto-complete="off"></el-input>
+            <el-form-item label="任务触发类" label-width="100px" style="width:90%">
+                <el-input v-model="form.jobClassName" auto-complete="off"></el-input>
             </el-form-item>
             <el-form-item label="表达式" label-width="100px" style="width:90%">
                 <el-input v-model="form.cronExpression" auto-complete="off"></el-input>
@@ -124,12 +127,16 @@
             //提交的表单
             form: {
                 jobName: '',
+                jobClassName: '',
                 jobGroup: '',
                 cronExpression: ''
             },
             updateform: {
                 jobName: '',
+                jobClassName: '',
                 jobGroup: '',
+                triggerName: '',
+                triggerGroup: '',
                 cronExpression: ''
             },
             loading: false
@@ -148,10 +155,11 @@
             // 从服务器读取数据
             loadData: function (currentPage, pageSize) {
                 this.loading = true;
-                this.$http.get('quartz/getJobList?' + 'currentPage=' + currentPage + '&pageSize=' + pageSize).then(function (res) {
-                    console.log(res);
-                    this.tableData = res.body.data.data;
-                    this.totalCount = res.body.data.total;
+                this.$http.get('quartz/jobList2?' + 'currentPage=' + currentPage + '&pageSize=' + pageSize).then(function (res) {
+                    // console.log(res);
+                    console.log(res.body);
+                    this.tableData = res.body.data;
+                    this.totalCount = res.body.count;
                     this.loading = false;
                 }, function () {
                     console.log('failed');
@@ -159,11 +167,11 @@
             },
             // 删除任务
             handleDelete: function (index, row) {
-                this.$http.delete('job', {
-                    params: {
-                        "jobClassName": row.jobName,
-                        "jobGroupName": row.jobGroup
-                    }
+                this.$http.post('quartz/deleteJob', {
+                    "triggerName": row.triggerName,
+                    "triggerGroupName": row.triggerGroup,
+                    "jobName": row.jobName,
+                    "jobGroupName": row.jobGroupName
                 }, {emulateJSON: true}).then(function (res) {
                     this.loadData(this.currentPage, this.pagesize);
                 }, function () {
@@ -172,10 +180,8 @@
             },
             // 暂停任务
             handlePause: function (index, row) {
-                this.$http.put('job?pause', {
-                    "jobClassName": row.jobName,
-                    "jobGroupName": row.jobGroup
-                }, {emulateJSON: true}).then(function (res) {
+                this.$http.get('quartz/pauseJob?jobName='+row.jobName+"&jobGroupName="+row.jobGroup)
+                        .then(function (res) {
                     this.loadData(this.currentPage, this.pagesize);
                 }, function () {
                     console.log('failed');
@@ -183,10 +189,8 @@
             },
             // 恢复任务
             handleResume: function (index, row) {
-                this.$http.put('job?resume', {
-                    "jobClassName": row.jobName,
-                    "jobGroupName": row.jobGroup
-                }, {emulateJSON: true}).then(function (res) {
+                this.$http.get('quartz/resumeJob?jobName='+row.jobName+"&jobGroupName="+row.jobGroup)
+                        .then(function (res) {
                     this.loadData(this.currentPage, this.pagesize);
                 }, function () {
                     console.log('failed');
@@ -202,11 +206,13 @@
             },
             // 添加
             add: function () {
-                this.$http.post('job', {
-                    "jobClassName": this.form.jobName,
-                    "jobGroupName": this.form.jobGroup,
-                    "cronExpression": this.form.cronExpression
-                }, {emulateJSON: true}).then(function (res) {
+                const jobData = {
+                    "jobName": this.form.jobName,
+                    "jobClassName": this.form.jobClassName,
+                    "cron": this.form.cronExpression
+                };
+                this.$http.post('quartz/addJob', JSON.stringify(jobData),
+                        {emulateJSON: true}).then(function (res) {
                     this.loadData(this.currentPage, this.pagesize);
                     this.dialogFormVisible = false;
                 }, function () {
@@ -218,16 +224,22 @@
                 console.log(row);
                 this.updateFormVisible = true;
                 this.updateform.jobName = row.jobName;
+                this.updateform.jobClassName = row.jobClassName;
                 this.updateform.jobGroup = row.jobGroup;
+                this.updateform.triggerName = row.triggerName;
+                this.updateform.triggerGroup = row.triggerGroup;
             },
             // 更新任务
             update: function () {
-                this.$http.put('job?cron',
-                    {
-                        "jobClassName": this.updateform.jobName,
-                        "jobGroupName": this.updateform.jobGroup,
-                        "cronExpression": this.updateform.cronExpression
-                    }, {emulateJSON: true}
+                const jobData = {
+                    "jobClassName": this.updateform.jobClassName,
+                    "jobName": this.updateform.jobName,
+                    "jobGroupName": this.updateform.jobGroup,
+                    "triggerName": this.updateform.triggerName,
+                    "triggerGroupName": this.updateform.triggerGroup,
+                    "cron": this.updateform.cronExpression
+                };
+                this.$http.post('quartz/updateJob',JSON.stringify(jobData), {emulateJSON: true}
                 ).then(function (res) {
                     this.loadData(this.currentPage, this.pagesize);
                     this.updateFormVisible = false;
@@ -251,6 +263,18 @@
 
     //载入数据
     vue.loadData(vue.currentPage, vue.pagesize);
+
+    // let token = $("meta[name='_csrf']").attr("content");
+    // let header = $("meta[name='_csrf_header']").attr("content");
+    // console.log(token);
+    // console.log(header);
+    // Vue.http.interceptors.push((request, next) => {
+    //     //请求发送前的处理逻辑
+    //     request.headers.set(header, token);
+    //     next((response) => {
+    //         return response
+    //     });
+    // });
 </script>
 
 </body>

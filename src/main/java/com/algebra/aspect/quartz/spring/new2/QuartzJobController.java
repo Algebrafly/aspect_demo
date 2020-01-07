@@ -1,15 +1,15 @@
 package com.algebra.aspect.quartz.spring.new2;
 
-import com.algebra.aspect.quartz.spring.UploadTask;
+import com.algebra.aspect.domain.JobAndTrigger;
+import com.algebra.aspect.service.IQuartzService;
+import com.algebra.aspect.util.RequestPageUtil;
 import com.algebra.aspect.util.WebApiResult;
-import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
+import com.github.pagehelper.PageInfo;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.poi.ss.formula.functions.T;
 import org.quartz.*;
-import org.quartz.impl.StdSchedulerFactory;
 import org.quartz.impl.matchers.GroupMatcher;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.quartz.QuartzJobBean;
@@ -32,6 +32,8 @@ public class QuartzJobController {
 
     @Autowired
     private Scheduler scheduler;
+    @Autowired
+    IQuartzService quartzService;
 
     /**
      * 查询任务当前状态
@@ -228,6 +230,26 @@ public class QuartzJobController {
         WebApiResult<String> result = new WebApiResult<>();
         log.info("[添加定时调度任务]-请求参数：{}", quartzJobDto.toString());
         try {
+            // 简单处理参数
+            String jobName = quartzJobDto.getJobName();
+            String jobGroupName = quartzJobDto.getJobGroupName();
+            String triggerName = quartzJobDto.getTriggerName();
+            String triggerGroupName = quartzJobDto.getTriggerGroupName();
+
+            if(jobGroupName == null || "".equals(jobGroupName)){
+                jobGroupName = jobName + "_group";
+            }
+
+            if(triggerName == null || "".equals(triggerName)){
+                triggerName = jobName;
+            }
+            if(triggerGroupName == null || "".equals(triggerGroupName)){
+                triggerGroupName = jobName+"_group";
+            }
+            quartzJobDto.setTriggerName(triggerName);
+            quartzJobDto.setTriggerGroupName(triggerGroupName);
+            quartzJobDto.setJobGroupName(jobGroupName);
+
             // 构建cron表达式
             CronScheduleBuilder cronScheduleBuilder = CronScheduleBuilder.cronSchedule(quartzJobDto.getCron());
 
@@ -300,5 +322,50 @@ public class QuartzJobController {
         return result;
     }
 
+    @PostMapping("/jobList")
+    @ApiOperation("getQuartzJobList2")
+    public WebApiResult<List<JobAndTrigger>> getQuartzJobList2(@RequestBody RequestPageUtil pageUtil){
+        WebApiResult<List<JobAndTrigger>> result = new WebApiResult<>();
+        log.info("[定时任务列表]查询，请求参数：{}", JSONObject.toJSON(pageUtil));
+        try {
+            PageInfo<JobAndTrigger> jobList = quartzService.getJobList(pageUtil);
+            List<JobAndTrigger> data = jobList.getList();
+            int size = jobList.getSize();
+            result.setData(data);
+            result.setCount(size);
+            result.setMessage("查询成功！");
+        }catch (Exception e){
+            e.printStackTrace();
+            log.error("查询Quartz任务列表异常");
+            result.setSuccess(false);
+            result.setMessage("查询Quartz任务列表异常");
+        }
+        return result;
+    }
+
+    @GetMapping("/jobList2")
+    @ApiOperation("getQuartzJobList2")
+    public WebApiResult<List<JobAndTrigger>> getQuartzJobList3(@RequestParam("currentPage") Integer currentPage,
+                                                               @RequestParam("pageSize") Integer pageSize){
+        WebApiResult<List<JobAndTrigger>> result = new WebApiResult<>();
+        RequestPageUtil pageUtil = new RequestPageUtil();
+        pageUtil.setCurrentPage(currentPage);
+        pageUtil.setPageSize(pageSize);
+        log.info("[定时任务列表]查询，请求参数：{}", JSONObject.toJSON(pageUtil));
+        try {
+            PageInfo<JobAndTrigger> jobList = quartzService.getJobList(pageUtil);
+            List<JobAndTrigger> data = jobList.getList();
+            int size = jobList.getSize();
+            result.setData(data);
+            result.setCount(size);
+            result.setMessage("查询成功！");
+        }catch (Exception e){
+            e.printStackTrace();
+            log.error("查询Quartz任务列表异常");
+            result.setSuccess(false);
+            result.setMessage("查询Quartz任务列表异常");
+        }
+        return result;
+    }
 
 }
