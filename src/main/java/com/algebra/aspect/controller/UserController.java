@@ -5,6 +5,7 @@ import com.algebra.aspect.kafka.order.Order;
 import com.algebra.aspect.kafka.order.OrderKafkaProvider;
 import com.algebra.aspect.service.IUserService;
 import com.algebra.aspect.util.WebApiResult;
+import com.algebra.basic.thread.RequestManager;
 import com.google.common.io.Files;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -12,6 +13,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletRequest;
 import java.time.LocalDateTime;
 import java.util.UUID;
 
@@ -48,6 +50,10 @@ public class UserController {
     @GetMapping("/getOneUserInfo")
     @ApiOperation(value = "getOneUserInfo")
     public WebApiResult<User> getUserInfoByParam(@RequestParam String userId){
+        /*
+         * 通过这种方式就可以把请求取出来了,不用每次都在参数上加一个request了
+         */
+        HttpServletRequest request = RequestManager.getHttpServletRequest();
         User u = userService.getUserInfoOne(userId,null);
         WebApiResult<User> result = new WebApiResult<>();
         result.setData(u);
