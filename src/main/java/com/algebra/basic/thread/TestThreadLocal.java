@@ -41,16 +41,31 @@ public class TestThreadLocal {
         }
     }
 
+    public void simpleTest(){
+        //ThreadLocal<String> threadLocal = new ThreadLocal<>();
+        ThreadLocal<String> threadLocal = new InheritableThreadLocal<>();
+        threadLocal.set("main thread");
+        Thread thread = new Thread(()->{
+            // 直接使用ThreadLocal输出 null，使用ThreadLocal输出 main thread
+            System.out.println(threadLocal.get());
+        });
+        thread.start();
+    }
+
     public static void main(String[] args) {
         TestThreadLocal sn = new TestThreadLocal();
         // 3个线程共享sn，各自产生序列号
-        TestClient t1 = new TestClient(sn);
-        TestClient t2 = new TestClient(sn);
-        TestClient t3 = new TestClient(sn);
+//        TestClient t1 = new TestClient(sn);
+//        TestClient t2 = new TestClient(sn);
+//        TestClient t3 = new TestClient(sn);
+//
+//        t1.start();
+//        t2.start();
+//        t3.start();
+//
+//        seqNum.remove();
 
-        t1.start();
-        t2.start();
-        t3.start();
+        sn.simpleTest();
 
     }
 }
