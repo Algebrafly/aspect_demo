@@ -11,13 +11,13 @@ public class ThreadPoolTest {
 
     public static void main(String[] args) throws InterruptedException, ExecutionException {
         //开十个线程 用来开线程 哈哈
-//        for (int i = 1; i < 10; i++) {
-//            MyTask m2 = new MyTask(i);
-//            m2.start();
-//        }
+        for (int i = 1; i < 10; i++) {
+            MyTask m2 = new MyTask(i);
+            m2.start();
+        }
     }
 
-    class MyTask extends Thread {
+    static class MyTask extends Thread {
         private int taskNum;
 
         public MyTask(int num) {
@@ -45,7 +45,7 @@ public class ThreadPoolTest {
 
     }
 
-    class MyTaskRun implements Runnable {
+    static class MyTaskRun implements Runnable {
         private String taskNum;
 
         public MyTaskRun(String num) {
