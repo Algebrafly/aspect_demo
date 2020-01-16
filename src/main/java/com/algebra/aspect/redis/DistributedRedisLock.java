@@ -3,6 +3,7 @@ package com.algebra.aspect.redis;
 import org.redisson.api.RLock;
 import org.redisson.api.RedissonClient;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
 import java.util.concurrent.TimeUnit;
 
@@ -11,24 +12,26 @@ import java.util.concurrent.TimeUnit;
  * @date 2020/1/15 17:35
  * @description
  */
+@Component
 public class DistributedRedisLock {
     @Autowired
-    private static RedissonClient redissonClient;
+    private RedissonClient redissonClient;
+
     private static final String LOCK_TITLE = "redisLock_";
     //加锁
-    public static boolean acquire(String lockName){
+    public boolean acquire(String lockName){
         //声明key对象
         String key = LOCK_TITLE + lockName;
         //获取锁对象
         RLock mylock = redissonClient.getLock(key);
         //加锁，并且设置锁过期时间，防止死锁的产生
-        mylock.lock(2, TimeUnit.MINUTES);
+        mylock.lock(10, TimeUnit.SECONDS);
         System.err.println("======lock======"+Thread.currentThread().getName());
         //加锁成功
         return  true;
     }
     //锁的释放
-    public static void release(String lockName){
+    public void release(String lockName){
         //必须是和加锁时的同一个key
         String key = LOCK_TITLE + lockName;
         //获取所对象
