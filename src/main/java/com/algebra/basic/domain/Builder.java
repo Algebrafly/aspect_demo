@@ -27,6 +27,12 @@ public class Builder<T> {
     }
     public <P1, P2> Builder<T> with(Consumer2<T, P1, P2> consumer, P1 p1, P2 p2) {
         Consumer<T> c = instance -> consumer.accept(instance, p1, p2);
+//        Consumer<T> c = new Consumer<T>() {
+//            @Override
+//            public void accept(T t) {
+//                consumer.accept(t,p1,p2);
+//            }
+//        };
         modifiers.add(c);
         return this;
     }
