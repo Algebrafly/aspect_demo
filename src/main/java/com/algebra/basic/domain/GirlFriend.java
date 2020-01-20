@@ -1,5 +1,7 @@
 package com.algebra.basic.domain;
 
+import com.google.common.base.Function;
+import com.google.common.base.Supplier;
 import lombok.Data;
 
 import java.util.*;
@@ -40,6 +42,10 @@ public class GirlFriend {
         this.hips = hips;
     }
 
+    public static int compareGirlFriendByAge(GirlFriend g1, GirlFriend g2){
+        return g1.getAge() - g2.getAge();
+    }
+
     public static void main(String[] args) {
         GirlFriend myGirlFriend = Builder.of(GirlFriend::new)
                 .with(GirlFriend::setName, "小美")
@@ -60,6 +66,24 @@ public class GirlFriend {
                 .build();
 
         System.out.println(myGirlFriend.toString());
+
+        List<GirlFriend> girlFriends = new ArrayList<>();
+        girlFriends.add(myGirlFriend);
+
+        // 四种方法引用及其返回值
+        // 1.对象::实例方法名
+        Supplier<String> getAddress = myGirlFriend::getAddress;
+        // 2.类名::实例方法名
+        Function<GirlFriend, String> getAddress1 = GirlFriend::getAddress;
+        // 3.类名::静态方法名
+        Comparator<GirlFriend> compareGirlFriendByAge = GirlFriend::compareGirlFriendByAge;
+
+        girlFriends.sort((o1, o2) -> GirlFriend.compareGirlFriendByAge(o1,o2));
+        girlFriends.sort(GirlFriend::compareGirlFriendByAge);
+        girlFriends.forEach(s -> System.out.println(s.getAge()));
+        // 4.类名::new
+        Supplier<GirlFriend> girlFriendSupplier = GirlFriend::new;
+
     }
 
 }

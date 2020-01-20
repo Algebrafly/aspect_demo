@@ -1,6 +1,6 @@
 package com.algebra.basic.function;
 
-import com.google.common.base.Function;
+import com.algebra.basic.domain.GirlFriend;
 
 import java.util.Optional;
 import java.util.Random;
@@ -54,6 +54,24 @@ public class SupplierTest {
         //orElseGet，如果first中存在数，就返回这个数，如果不存在，就返回supplier返回的值
         System.out.println(first.orElseGet(supplier));
 
+
+    }
+
+    public void test3() {
+
+        // 1.简单模式
+        Supplier<GirlFriend> supplier = new Supplier<GirlFriend>() {
+            @Override
+            public GirlFriend get() {
+                return new GirlFriend();
+            }
+        };
+
+        // 2.lambda表达式
+        Supplier<GirlFriend> supplier2 = () -> new GirlFriend();
+
+        // 3.引用
+        Supplier<GirlFriend> supplier3 = GirlFriend::new;
 
     }
 

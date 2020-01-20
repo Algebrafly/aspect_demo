@@ -1,5 +1,6 @@
 package com.algebra.basic.function;
 
+import com.algebra.basic.domain.GirlFriend;
 import com.algebra.generic.entity.ext.Person;
 
 import java.util.function.Consumer;
@@ -68,6 +69,7 @@ public class ConsumerTest {
         ConsumerTest test = new ConsumerTest();
         test.test2(c3,"明兰");
         System.out.println("ok");
+
 
     }
 
